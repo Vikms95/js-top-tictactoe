@@ -1,16 +1,16 @@
 const playerFactory = (name,mark) => {
-    let score = 0;
-    const markBoard = (mark,event) => {
-        event.target.textContent = mark;
-    }
-    return {name,mark,markBoard};
+    
+    let _score = 0;
+    return {mark};
 }
 
 const boardModule = (() => {
     
-    const gameboardDivReference = document.querySelector('#gameboard');
     let Gameboard  = {gameBoard:["","","","","","","","",""]};
-    
+
+    const gameboardDivReference = document.querySelector('#gameboard');
+    let playerTurn = undefined;   
+
     const renderGameBoard = (() => {
         const gameBoard = Gameboard.gameBoard;
         const arrayLength = gameBoard.length;
@@ -26,14 +26,21 @@ const boardModule = (() => {
         const boardSquareDivReference = document.querySelectorAll('.board-square');
         boardSquareDivReference.forEach(element => {
             element.addEventListener('click', (event) => {
-                player1.markBoard(player1.mark,event);
+                if(event.target.textContent !== '') return;
+                if(playerTurn === undefined || playerTurn === player2){
+                    playerTurn = player1;
+                }else{
+                    playerTurn = player2;
+                }
+                event.target.textContent = playerTurn.mark;
+                
             })
         });
     })();
 
-    let displayController = {};
 })();
 
-let player1 = playerFactory("victor","X");
+let player1 = playerFactory('Victor','X');
+let player2 = playerFactory('Olga','O');
 
 
