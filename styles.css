@@ -16,6 +16,9 @@ body{
 }
 
 .board-square{
+    background-color: darkgrey;
+    font-size: xx-large;
+
     border: solid 1px black;
     max-width: 100px;
     max-height: 100px;
