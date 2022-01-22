@@ -1,0 +1,29 @@
+body{
+    display: flex;
+    flex-flow: column wrap;
+    justify-content: center;
+    align-items: center;
+}
+
+.title{
+    margin: 30px;
+    padding: 30px;
+}
+
+#gameboard{
+    display:grid;
+    grid-template-columns: repeat(3,1fr);
+}
+
+.board-square{
+    border: solid 1px black;
+    max-width: 120px;
+    max-height: 120px;
+    padding: 30px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex: 1 0 33.333333%;
+    
+}
