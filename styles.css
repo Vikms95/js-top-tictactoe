@@ -46,7 +46,7 @@ button.start-game:hover{
 }
 
 .board-square{
-    background-color: rgb(201, 199, 199);
+    background-color: lightgray;
     font-size: xx-large;
 
     border: solid 1px lightcoral;
@@ -55,6 +55,7 @@ button.start-game:hover{
     min-width: 100px;
     min-height: 100px;
     padding: 30px;
+    line-height: 0;
 
     display: flex;
     justify-content: center;
@@ -69,7 +70,6 @@ button.start-game:hover{
 
 .message-board{
     font-family: 'Kosugi Maru', sans-serif; 
-    border: solid 1px black;
     margin: 20px;
     
     min-width: 300px;

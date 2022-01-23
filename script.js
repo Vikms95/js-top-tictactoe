@@ -90,6 +90,19 @@ const boardModule = (() => {
     const addListenerGameBoardDiv = (() => {
         const boardSquareDivReference = document.querySelectorAll('.board-square');
         boardSquareDivReference.forEach(element => {
+            if(["0", "1", "2"].includes(element.id)) {
+                element.style.borderTop = "none";
+            }
+            if(["6", "7", "8"].includes(element.id)) {
+                element.style.borderBottom = "none";
+            }
+            if(["0", "3", "6"].includes(element.id)) {
+                element.style.borderLeft = "none";
+            }
+            if(["2", "5", "8"].includes(element.id)) {
+                element.style.borderRight = "none";
+            }
+
             element.addEventListener('click', (event) => {
                drawMarkOnGameboard(event);
                gameFlowModule.checkForWinnerOrTie(getPlayerOnTurn());
@@ -125,11 +138,12 @@ const gameFlowModule = (() =>{
         diagonalWin2:['2','4','6']
     }
 
-    const namePlayer = () => {
-        let playerName = prompt('Select name for player 1:');
-        let player = Player(playerName,'X','red');
+    const startNewGame = () => {
+        const playerName1 = prompt('Enter player 1 name');
+        const playerName2 = prompt('Enter player 2 name');
 
-        
+        let player1 = Player(playerName1,'X','red');
+        let player2 = Player(playerName2,'O','blue');
     }
 
     const getWinScenarios = () =>{
@@ -160,12 +174,12 @@ const gameFlowModule = (() =>{
         messageDivReference.textContent = "The winner is " + getPlayerOnTurn.getPlayerName();
     }
 
-    return {congratulateWin,
+    return {startNewGame,
+            congratulateWin,
             checkForWinnerOrTie
     };
 
 })();
-
-
+gameFlowModule.startNewGame();
 let player1 = Player('Victor','X','red');
 let player2 = Player('Olga','O','blue');

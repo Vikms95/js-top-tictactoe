@@ -30,12 +30,12 @@ Components: MODULE >
     :iterate every array of winScenarios object and check if all three numbers of the array exist in your playerMoves
     :refactor drawMarkOnGameBoard -->
 
-- Function checkPlayerToPlay(event,playerOnTurn) return playerOnTurn
-
 <!-- - Function to display congratulating message on win -->
 
 <!-- - Function to reset the game if a winner is found (reset divs textContent,
                                                    reset gameboard Array,
                                                    reset playerMoves Array) -->
+
+- Function checkPlayerToPlay(event,playerOnTurn) return playerOnTurn
 
 - Try to put all conditionals in objects, return a certain object if met
