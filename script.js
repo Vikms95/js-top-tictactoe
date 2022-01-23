@@ -1,19 +1,35 @@
-const playerFactory = (name,mark,color) => {
+const Player = (name,mark,color) => {
     let _markedPositions = []
 
     const getMarkedPositions = () => {
         return _markedPositions;
     }
+
     const resetMarkedPositions = () => {
         _markedPositions = []
     }
 
-    return {name, mark, color, getMarkedPositions,resetMarkedPositions};
+    const getPlayerName = () => {
+        return name;
+    }
+
+    const setPlayerName = (playerName) => {
+        name = playerName;
+    }
+
+    return {getPlayerName,
+            setPlayerName,
+            mark,
+            color,
+            getMarkedPositions,
+            resetMarkedPositions
+    };
 }
 
 const boardModule = (() => {
     let _playerOnTurn = undefined; 
     let _gameBoard = ['','','','','','','','',''];
+    
     const getBoard = () => {
         return _gameBoard; 
     }
@@ -25,33 +41,6 @@ const boardModule = (() => {
     const setPlayerOnTurn = (playerToSet) => {
         _playerOnTurn = playerToSet;
     }
-
-    const renderGameBoard = (() => {
-        const gameboardDivReference = document.querySelector('#gameboard');
-        for (let i = 0; i < getBoard().length; i++) {
-            let element = document.createElement('div');
-            element.id = i;
-            element.className = 'board-square'
-            gameboardDivReference.appendChild(element);
-        }
-    })();
-
-    const addListenerGameBoardDiv = (() => {
-        const boardSquareDivReference = document.querySelectorAll('.board-square');
-        boardSquareDivReference.forEach(element => {
-            element.addEventListener('click', (event) => {
-               drawMarkOnGameboard(event);
-               gameFlowModule.checkForWinnerOrTie(getPlayerOnTurn());
-            })
-        });
-    })();
-
-    const addListenerNewGameButton = (() => {
-        const newGameButtonReference = document.querySelector('.start-game')
-        newGameButtonReference.addEventListener('click', () =>{
-            resetBoard();
-        });
-    })();
 
     const drawMarkOnGameboard = (event) => {
         if(event.target.textContent !== '') return null;
@@ -88,11 +77,39 @@ const boardModule = (() => {
         setPlayerOnTurn(undefined);
     };
 
+    const renderGameBoard = (() => {
+        const gameboardDivReference = document.querySelector('#gameboard');
+        for (let i = 0; i < getBoard().length; i++) {
+            let element = document.createElement('div');
+            element.id = i;
+            element.className = 'board-square'
+            gameboardDivReference.appendChild(element);
+        }
+    })();
+
+    const addListenerGameBoardDiv = (() => {
+        const boardSquareDivReference = document.querySelectorAll('.board-square');
+        boardSquareDivReference.forEach(element => {
+            element.addEventListener('click', (event) => {
+               drawMarkOnGameboard(event);
+               gameFlowModule.checkForWinnerOrTie(getPlayerOnTurn());
+            })
+        });
+    })();
+
+    const addListenerNewGameButton = (() => {
+        const newGameButtonReference = document.querySelector('.start-game')
+        newGameButtonReference.addEventListener('click', () =>{
+            resetBoard();
+        });
+    })();
+
     return{getBoard,
         resetBoard,
         getPlayerOnTurn,
         setPlayerOnTurn
     };
+
 })();
 
 const gameFlowModule = (() =>{
@@ -106,6 +123,13 @@ const gameFlowModule = (() =>{
         verticalWin3:['2','5','8'],
         diagonalWin1:['0','4','8'],
         diagonalWin2:['2','4','6']
+    }
+
+    const namePlayer = () => {
+        let playerName = prompt('Select name for player 1:');
+        let player = Player(playerName,'X','red');
+
+        
     }
 
     const getWinScenarios = () =>{
@@ -133,13 +157,15 @@ const gameFlowModule = (() =>{
 
     const congratulateWin = (getPlayerOnTurn) =>{
         const messageDivReference = document.querySelector('.message-board');
-        messageDivReference.textContent = "The winner is " + getPlayerOnTurn.name;
+        messageDivReference.textContent = "The winner is " + getPlayerOnTurn.getPlayerName();
     }
 
     return {congratulateWin,
             checkForWinnerOrTie
     };
+
 })();
 
-let player1 = playerFactory('Victor','X','red');
-let player2 = playerFactory('Olga','O','blue');
+
+let player1 = Player('Victor','X','red');
+let player2 = Player('Olga','O','blue');
