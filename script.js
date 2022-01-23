@@ -1,16 +1,18 @@
 const playerFactory = (name,mark,color) => {
     let markedPositions = []
-    return {name,mark,color, markedPositions};
+    return {name, mark, color, markedPositions};
 }
 
 const boardModule = (() => {
-    const gameboardDivReference = document.querySelector('#gameboard');
-    let Gameboard = {gameBoard:['','','','','','','','','']};
-    let playerTurn = undefined;   
-
+    let boardSquareDivReference = document.querySelectorAll('.board-square');
+    let playerOnTurn = undefined; 
+    let Gameboard = {
+        gameBoard:['','','','','','','','','']
+    };
+      
     const renderGameBoard = (() => {
-        const gameBoard = Gameboard.gameBoard;
-        for (let i = 0; i < gameBoard.length; i++) {
+        const gameboardDivReference = document.querySelector('#gameboard');
+        for (let i = 0; i < Gameboard.gameBoard.length; i++) {
             let element = document.createElement('div');
             element.id = i;
             element.className = 'board-square'
@@ -19,46 +21,54 @@ const boardModule = (() => {
     })();
 
     const addListenerGameBoardSquares = (() => {
-        const boardSquareDivReference = document.querySelectorAll('.board-square');
+        let boardSquareDivReference = document.querySelectorAll('.board-square');
         boardSquareDivReference.forEach(element => {
             element.addEventListener('click', (event) => {
-                drawMarkOnGameboard(event);
-                // console.log(Gameboard.gameBoard)
+               let playerOnTurn = drawMarkOnGameboard(event);
+               if(playerOnTurn === null) return;
+               gameFlowModule.checkForWinnerOrTie(playerOnTurn);
             })
         });
     })();
 
     const drawMarkOnGameboard = (event) => {
-        if(event.target.textContent !== '') return;
-        if(playerTurn === player2 || playerTurn === undefined){
-            playerTurn = player1;
-            event.target.style.color = playerTurn.color;
+        if(event.target.textContent !== '') return null;
+        if(playerOnTurn === player2 || playerOnTurn === undefined){
+            playerOnTurn = player1;
+            event.target.style.color = playerOnTurn.color;
         }else{
-            playerTurn = player2;
-            event.target.style.color = playerTurn.color;
+            playerOnTurn = player2;
+            event.target.style.color = playerOnTurn.color;
         }
-        let playerMoves = playerTurn.markedPositions;
-        let playerName = playerTurn.name;
-        event.target.textContent = playerTurn.mark;
-        Gameboard.gameBoard.splice(parseInt(event.target.id) , 1, playerTurn.mark);
-        playerMoves.push(event.target.id)
-        Object.values(gameModule.winScenarios).forEach((element) =>{
-            let amountFound = 0;
-            element.forEach((number) =>{
-                if(playerMoves.includes(number)){
-                    amountFound++;
-                    console.log(amountFound)
-                }
-            })
-            if(amountFound === 3){
-                gameModule.congratulateWin(playerTurn);
-            }
-        });
+        event.target.textContent = playerOnTurn.mark;
+        playerOnTurn.markedPositions.push(event.target.id);
+        Gameboard.gameBoard.splice(event.target.id , 1, playerOnTurn.mark);
+        return playerOnTurn;
+    };
+
+    const resetBoard = () =>{
+        //Clear board squares
+        let boardSquareDivReference = document.querySelectorAll('.board-square');
+        boardSquareDivReference.forEach(element => {
+          element.textContent = '';  
+        })
+
+        //Clear gameboard array
+        for (let i = 0; i < Gameboard.gameBoard.length; i++) {
+            Gameboard.gameBoard[i] = '';
+        }
+
+        //Clear player marked positions
+        player1.markedPositions = [];
+        player2.markedPositions = [];
     }
-    return{Gameboard};
+
+    return{Gameboard,playerOnTurn,resetBoard};
+
 })();
 
-const gameModule = (() =>{
+const gameFlowModule = (() =>{
+    
     const winScenarios = {
         horizontalWin1: ['0','1','2'],
         horizontalWin2: ['3','4','5'],
@@ -70,10 +80,31 @@ const gameModule = (() =>{
         diagonalWin2:['2','4','6']
     }
 
-    const congratulateWin = (playerName) =>{
-        console.log("The winner is " + playerName.name);
+    const checkForWinnerOrTie = (playerOnTurn) =>{
+        if(boardModule.Gameboard.gameBoard.includes('')){
+            Object.values(winScenarios).forEach((element) =>{
+                let amountFound = 0;
+                element.forEach((number) =>{
+                    if(playerOnTurn.markedPositions.includes(number)){
+                        amountFound++;
+                    }
+                    if(amountFound === 3){
+                        congratulateWin(playerOnTurn);
+                        boardModule.resetBoard();
+                    }
+                })
+            })
+        }else{
+            boardModule.resetBoard();
+        }
+    };
+
+    const congratulateWin = (playerOnTurn) =>{
+        const messageDivReference = document.querySelector('.message-board');
+        messageDivReference.textContent = "The winner is " + playerOnTurn.name;
     }
-    return {congratulateWin,winScenarios};
+
+    return {congratulateWin,winScenarios,checkForWinnerOrTie};
 })();
 
 let player1 = playerFactory('Victor','X','red');

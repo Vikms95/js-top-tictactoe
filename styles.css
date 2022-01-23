@@ -32,3 +32,17 @@ body{
     flex: 1 0 33.333333%;
     
 }
+
+.message-board{
+    border: solid 1px black;
+    margin: 20px;
+    
+    min-width: 300px;
+    max-width: 300px;
+    min-height: 100px;
+    max-height: 100px;
+    
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
