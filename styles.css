@@ -16,7 +16,7 @@ body{
     border-bottom: solid 2px crimson;
     width: 100%;
 
-    margin-bottom: 30px;
+    margin-bottom: 90px;
     padding: 30px;
 
     display: flex;
@@ -25,10 +25,12 @@ body{
 }
 
 .github-link{
+    
     font-weight:100;
     font-style: italic;
     color: black;
     text-decoration: none;
+    font-family: 'Kosugi Maru', sans-serif; 
 }
 
 button.start-game{
@@ -45,11 +47,63 @@ button.start-game:hover{
     background-color: crimson;
 }
 
+.container{
+    display: flex;
+    flex-flow: row wrap;
+    gap: 100px;
+    justify-content: center;
+    align-items: center;
+}
+
 #gameboard{
     font-family: 'Mochiy Pop P One', sans-serif;
 
     display:grid;
     grid-template-columns: repeat(3,1fr);
+}
+
+#game-log{
+    font-family: 'Kosugi Maru', sans-serif; 
+}
+
+.names-row{
+    display: flex;
+    flex-flow: row nowrap;
+}
+
+.player1-name,
+.player2-name{
+    
+    font-weight: bolder;
+
+    border:solid 5px crimson;
+    padding: 20px;
+    
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+}
+
+.scores-row{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+
+    /* gap: 50px; */
+}
+
+.player1-score,
+.player2-score{
+    height: 50px;
+    width: 50%;
+    font: bolder;
+    text-decoration: underline crimson;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .board-square{

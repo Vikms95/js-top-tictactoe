@@ -35,6 +35,17 @@ const boardModule = (() => {
         getBoard().splice(event.target.id , 1, gameFlowModule.getPlayerOnTurn().mark);
     };
 
+    const addScoreToLog = (_playerOnTurn,players) =>{
+        const logPlayer1DivReference = document.querySelector('.player1-score');
+        const logPlayer2DivReference = document.querySelector('.player2-score');
+
+        if(gameFlowModule.getPlayerOnTurn() === players.player1){
+            logPlayer1DivReference.textContent = parseInt(logPlayer1DivReference.textContent) + 1; 
+        }else{
+            logPlayer2DivReference.textContent = parseInt(logPlayer2DivReference.textContent) +  1;
+        }
+    }
+
     const removeBoardOuterBorder = (element) =>{
         if(["0", "1", "2"].includes(element.id)) {
             element.style.borderTop = "none";
@@ -82,7 +93,8 @@ const boardModule = (() => {
     })();
 
     return{
-        getBoard
+        getBoard,
+        addScoreToLog
     };
 
 })();
@@ -102,16 +114,37 @@ const gameFlowModule = (() =>{
             playerName1 = 'Guest 1';
             playerName2 = 'Guest 2';
         };
+        if(playerName1.length > 15 || playerName2.length > 15){
+            alert('Name\'s are too long, give some propers names!');
+            createPlayers();
+        }
 
         let player1 = Player(playerName1,'X','red');
         let player2 = Player(playerName2,'O','blue');
         _players = {player1,player2};
+        updateLog();
         
         return {player1,player2};
     }
 
+    const updateLog = () =>{
+        const player1NameReference = document.querySelector('.player1-name');
+        const player2NameReference = document.querySelector('.player2-name');
+        const player1ScoreReference = document.querySelector('.player1-score');
+        const player2ScoreReference = document.querySelector('.player2-score');
+        const logPlayer1DivReference = document.querySelector('.player1-score');
+        const logPlayer2DivReference = document.querySelector('.player2-score');
+
+        logPlayer1DivReference.textContent = 0;
+        logPlayer2DivReference.textContent = 0;
+        player1NameReference.textContent = _players.player1.getPlayerName();
+        player2NameReference.textContent = _players.player2.getPlayerName();
+
+    }
+
     const startGame = (() => {
         _players =  createPlayers();
+        updateLog();
     })();
 
     const getPlayerOnTurn = () => {
@@ -138,6 +171,8 @@ const gameFlowModule = (() =>{
     };
 
     const checkPlayerToPlay = (event) =>{
+        const messageDivReference = document.querySelector('.message-board');
+        
         if(event.target.textContent !== '' || _players === null) return null;
         if(getPlayerOnTurn() === _players.player2 || getPlayerOnTurn() === undefined){
             setPlayerOnTurn(_players.player1);
@@ -145,6 +180,13 @@ const gameFlowModule = (() =>{
         }else{
             setPlayerOnTurn(_players.player2);
             event.target.style.color = getPlayerOnTurn().color;
+        };
+
+        if(_playerOnTurn === _players.player1){
+            messageDivReference.textContent = 'It\'s ' + _players.player2.getPlayerName() + '\'s turn';
+        }
+        else{
+            messageDivReference.textContent = 'It\'s ' + _players.player1.getPlayerName() + '\'s turn'; 
         };
         event.target.textContent = getPlayerOnTurn().mark;
     };
@@ -159,6 +201,7 @@ const gameFlowModule = (() =>{
                     }
                     if(amountFound === 3){
                         congratulateWin(_playerOnTurn);
+                        boardModule.addScoreToLog(_playerOnTurn,_players);
                         resetBoard();
                     };
                 });
@@ -166,6 +209,7 @@ const gameFlowModule = (() =>{
         }else{
             resetBoard();
         };
+
     };
 
     const congratulateWin = (getPlayerOnTurn) =>{
