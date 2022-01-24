@@ -24,6 +24,13 @@ body{
     align-items: center;
 }
 
+.github-link{
+    font-weight:100;
+    font-style: italic;
+    color: black;
+    text-decoration: none;
+}
+
 button.start-game{
     font-family: 'Kosugi Maru', sans-serif; 
     color: crimson;
@@ -82,7 +89,3 @@ button.start-game:hover{
     align-items: center;
 }
 
-.github-link{
-    font-weight:100;
-    font-style: italic;
-}

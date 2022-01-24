@@ -1,17 +1,17 @@
 const Player = (name,mark,color) => {
-    let _markedPositions = []
+    let _markedPositions = [];
 
     const getMarkedPositions = () => {
         return _markedPositions;
-    }
+    };
 
     const resetMarkedPositions = () => {
-        _markedPositions = []
-    }
+        _markedPositions = [];
+    };
 
     const getPlayerName = () => {
         return name;
-    }
+    };
 
     return {getPlayerName,
             mark,
@@ -19,7 +19,7 @@ const Player = (name,mark,color) => {
             getMarkedPositions,
             resetMarkedPositions
     };
-}
+};
 
 const boardModule = (() => {
     
@@ -27,7 +27,7 @@ const boardModule = (() => {
     
     const getBoard = () => {
         return _gameBoard; 
-    }
+    };
 
     const drawMarkOnGameboard = (event) => {
         gameFlowModule.checkPlayerToPlay(event);
@@ -38,27 +38,26 @@ const boardModule = (() => {
     const removeBoardOuterBorder = (element) =>{
         if(["0", "1", "2"].includes(element.id)) {
             element.style.borderTop = "none";
-        }
+        };
         if(["6", "7", "8"].includes(element.id)) {
             element.style.borderBottom = "none";
-        }
+        };
         if(["0", "3", "6"].includes(element.id)) {
             element.style.borderLeft = "none";
-        }
+        };
         if(["2", "5", "8"].includes(element.id)) {
             element.style.borderRight = "none";
-        }
-
-    }
+        };
+    };
 
     const renderGameBoard = (() => {
         const gameboardDivReference = document.querySelector('#gameboard');
         for (let i = 0; i < getBoard().length; i++) {
             let element = document.createElement('div');
             element.id = i;
-            element.className = 'board-square'
+            element.className = 'board-square';
             gameboardDivReference.appendChild(element);
-        }
+        };
     })();
 
     const addListenerGameBoardDiv = (() => {
@@ -68,7 +67,7 @@ const boardModule = (() => {
             element.addEventListener('click', (event) => {
                drawMarkOnGameboard(event);
                gameFlowModule.checkForWinnerOrTie(gameFlowModule.getPlayerOnTurn());
-            })
+            });
         });
     })();
 
@@ -83,7 +82,7 @@ const boardModule = (() => {
     })();
 
     return{
-        getBoard,
+        getBoard
     };
 
 })();
@@ -91,22 +90,29 @@ const boardModule = (() => {
 const gameFlowModule = (() =>{
     
     let _players;
-    
+    let _playerOnTurn = undefined; 
+
     const createPlayers = () => {
-        const playerName1 = prompt('Enter player 1 name');
-        const playerName2 = prompt('Enter player 2 name');
-        if(playerName1 === null || playerName2 === null) return null;
+        let alphaNumChars = /^[a-z0-9]+$/i;
+        let playerName1 = prompt('Enter player 1 name');
+        let playerName2 = prompt('Enter player 2 name');
+        
+        if(playerName1 === null && playerName2 === null){
+            alert('Welcome unnamed guest!')
+            playerName1 = 'Guest 1';
+            playerName2 = 'Guest 2';
+        };
 
         let player1 = Player(playerName1,'X','red');
         let player2 = Player(playerName2,'O','blue');
-        _players = {player1,player2}
+        _players = {player1,player2};
         
-        return {player1,player2}
+        return {player1,player2};
     }
 
-    _players =  createPlayers();
-
-    let _playerOnTurn = undefined; 
+    const startGame = (() => {
+        _players =  createPlayers();
+    })();
 
     const getPlayerOnTurn = () => {
         return _playerOnTurn;
@@ -132,14 +138,14 @@ const gameFlowModule = (() =>{
     };
 
     const checkPlayerToPlay = (event) =>{
-        if(event.target.textContent !== '') return null;
+        if(event.target.textContent !== '' || _players === null) return null;
         if(getPlayerOnTurn() === _players.player2 || getPlayerOnTurn() === undefined){
             setPlayerOnTurn(_players.player1);
             event.target.style.color = getPlayerOnTurn().color;
         }else{
             setPlayerOnTurn(_players.player2);
             event.target.style.color = getPlayerOnTurn().color;
-        }
+        };
         event.target.textContent = getPlayerOnTurn().mark;
     };
 
@@ -154,12 +160,12 @@ const gameFlowModule = (() =>{
                     if(amountFound === 3){
                         congratulateWin(_playerOnTurn);
                         resetBoard();
-                    }
-                })
-            })
+                    };
+                });
+            });
         }else{
             resetBoard();
-        }
+        };
     };
 
     const congratulateWin = (getPlayerOnTurn) =>{
@@ -168,6 +174,7 @@ const gameFlowModule = (() =>{
     }
 
     const resetBoard = () =>{
+        
         //Clear board squares
         let boardSquareDivReference = document.querySelectorAll('.board-square');
         boardSquareDivReference.forEach(element => {
@@ -197,4 +204,3 @@ const gameFlowModule = (() =>{
     };
 
 })();
-

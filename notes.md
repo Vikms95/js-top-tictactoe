@@ -1,22 +1,3 @@
-Components: MODULE >
-                    gameBoard
-                    gameFlow
-            FACTORIES >
-                    playerFactory
-
-- playerFactory:
-    properties > name(public)
-                 mark(public)
-                 score(public)
-
-    methods > markBoard(public)
-
-- gameBoard:
-    properties > gameBoard(private)
-
-    methods > markBoard(public)
-              renderGameBoard(private)
-
 <!-- - Gameboard is an array with 9 indexes, each one of them belong to a square in the display -->
 
 <!-- - Switch between player 1 and player 2 between turns -->
@@ -36,8 +17,7 @@ Components: MODULE >
                                                    reset gameboard Array,
                                                    reset playerMoves Array) -->
 
-- Function checkPlayerToPlay(event,playerOnTurn) return playerOnTurn
 
 - Try to put all conditionals in objects, return a certain object if met
 
-- In the gameFlowModule, the first step might be to set up the Player instances. They are part of the game flow, so it makes sense that gameFlowModule should manage them.
+
