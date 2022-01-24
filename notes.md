@@ -39,3 +39,5 @@ Components: MODULE >
 - Function checkPlayerToPlay(event,playerOnTurn) return playerOnTurn
 
 - Try to put all conditionals in objects, return a certain object if met
+
+- In the gameFlowModule, the first step might be to set up the Player instances. They are part of the game flow, so it makes sense that gameFlowModule should manage them.
