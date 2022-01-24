@@ -104,6 +104,17 @@ const gameFlowModule = (() =>{
     let _players;
     let _playerOnTurn = undefined; 
 
+    const _winScenarios = {
+        horizontalWin1: ['0','1','2'],
+        horizontalWin2: ['3','4','5'],
+        horizontalWin3: ['6','7','8'],
+        verticalWin1:['0','3','6'],
+        verticalWin2:['1','4','7'],
+        verticalWin3:['2','5','8'],
+        diagonalWin1:['0','4','8'],
+        diagonalWin2:['2','4','6']
+    };
+
     const createPlayers = () => {
         let alphaNumChars = /^[a-z0-9]+$/i;
         let playerName1 = prompt('Enter player 1 name');
@@ -154,17 +165,6 @@ const gameFlowModule = (() =>{
     const setPlayerOnTurn = (playerToSet) => {
         _playerOnTurn = playerToSet;
     }
-
-    const _winScenarios = {
-        horizontalWin1: ['0','1','2'],
-        horizontalWin2: ['3','4','5'],
-        horizontalWin3: ['6','7','8'],
-        verticalWin1:['0','3','6'],
-        verticalWin2:['1','4','7'],
-        verticalWin3:['2','5','8'],
-        diagonalWin1:['0','4','8'],
-        diagonalWin2:['2','4','6']
-    };
 
     const getWinScenarios = () =>{
         return _winScenarios;
