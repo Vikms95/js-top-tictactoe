@@ -11,11 +11,10 @@ body{
 .header{
     font-family: 'Kosugi Maru', sans-serif; 
     font-weight: 900;
-
     background-color: lightcoral;
     border-bottom: solid 2px crimson;
+    
     width: 100%;
-
     margin-bottom: 90px;
     padding: 30px;
 
@@ -24,13 +23,12 @@ body{
     align-items: center;
 }
 
-.github-link{
-    
+.github-link{  
     font-weight:100;
     font-style: italic;
     color: black;
     text-decoration: none;
-    font-family: 'Kosugi Maru', sans-serif; 
+    
 }
 
 button.start-game{
@@ -69,13 +67,12 @@ button.start-game:hover{
 .names-row{
     display: flex;
     flex-flow: row nowrap;
-}
 
+
+}
 .player1-name,
 .player2-name{
-    
     font-weight: bolder;
-
     border:solid 5px crimson;
     padding: 20px;
     
@@ -90,8 +87,6 @@ button.start-game:hover{
     flex-direction: row;
     justify-content: center;
     align-items: center;
-
-    /* gap: 50px; */
 }
 
 .player1-score,

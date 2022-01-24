@@ -242,7 +242,6 @@ const gameFlowModule = (() =>{
             createPlayers,
             getPlayerOnTurn,
             checkPlayerToPlay,
-            congratulateWin,
             checkForWinnerOrTie,
             resetBoard
     };
