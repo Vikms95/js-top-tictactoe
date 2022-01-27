@@ -21,7 +21,6 @@ const Player = (name,mark,color) => {
     };
 };
 
-//Change all cell checkers with divReference.textcontent
 const Computer = () =>{
     let player = "X";
     let opponent = "O";
@@ -50,9 +49,9 @@ const Computer = () =>{
         while(row <= 6){    
             b.forEach(row);
                 if(b[row + 0] === b[row + 1] && b[row + 1] === b[row + 2]){
-                    if(b[row + 0] == 'X'){
+                    if(b[row + 0] === 'X'){
                         return +10;
-                    }else if(b[row + 0] == 'O'){
+                    }else if(b[row + 0] === 'O'){
                         return -10;
                     }
                 }
@@ -65,16 +64,15 @@ const Computer = () =>{
         while(col <= 6){    
             b.forEach(col);
                 if(b[col + 0] === b[col + 1] && b[col + 1] === b[col + 2]){
-                    if(b[col + 0] == 'X'){
+                    if(b[col + 0] === 'X'){
                         return +10;
-                    }else if(b[col + 0] == 'O'){
+                    }else if(b[col + 0] === 'O'){
                         return -10;
                     }
                 }
                 col += 3;    
         }
         
-
         //Checking for Diagonals for X or O victory.
         if(b[0] === b[4] && b[4] === b[8]){
             if(b[0] === 'X'){
@@ -83,6 +81,7 @@ const Computer = () =>{
                 return -10;
             }
         }
+
         if(b[2] === b[4] && b[4] === b[6]){
             if(b[2] === 'X'){
                 return +10;
@@ -177,6 +176,10 @@ const boardModule = (() => {
         getBoard().splice(event.target.id , 1, gameFlowModule.getPlayerOnTurn().mark);
     };
 
+    const drawMarkOnGameboardComputer = () => {
+
+    }
+
     const addScoreToLog = (_playerOnTurn,players) =>{
         const logPlayer1DivReference = document.querySelector('.player1-score');
         const logPlayer2DivReference = document.querySelector('.player2-score');
@@ -245,6 +248,7 @@ const gameFlowModule = (() =>{
     
     let _players;
     let _playerOnTurn = undefined; 
+    let isGameWithComputer = false;
 
     const _winScenarios = {
         horizontalWin1: ['0','1','2'],
@@ -283,8 +287,6 @@ const gameFlowModule = (() =>{
     const updateLog = () =>{
         const player1NameReference = document.querySelector('.player1-name');
         const player2NameReference = document.querySelector('.player2-name');
-        const player1ScoreReference = document.querySelector('.player1-score');
-        const player2ScoreReference = document.querySelector('.player2-score');
         const logPlayer1DivReference = document.querySelector('.player1-score');
         const logPlayer2DivReference = document.querySelector('.player2-score');
 
@@ -378,6 +380,9 @@ const gameFlowModule = (() =>{
 
         //Resets which player has to play to it's initial state
         setPlayerOnTurn(undefined);
+
+        //Resets the type of game
+        isGameWithComputer = false;
     };
 
     return {
