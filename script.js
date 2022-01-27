@@ -21,6 +21,7 @@ const Player = (name,mark,color) => {
     };
 };
 
+//Change all cell checkers with divReference.textcontent
 const Computer = () =>{
     let player = "X";
     let opponent = "O";
@@ -41,7 +42,6 @@ const Computer = () =>{
         return false;
     }
 
-    //b = _gameBoard - forEach and sum +3 to change row - 0/3/6
     function evaluate (b){
        
         //Checking for Rows for X or 0 victory.
@@ -74,6 +74,8 @@ const Computer = () =>{
                 col += 3;    
         }
         
+
+        //Checking for Diagonals for X or O victory.
         if(b[0] === b[4] && b[4] === b[8]){
             if(b[0] === 'X'){
                 return +10;
@@ -88,7 +90,75 @@ const Computer = () =>{
                 return -10;
             }
         }
+        //Else if none of them have won, return 0.
         return 0;
+    }
+
+    function minimax(board, depth, isMax){
+
+        let score = evaluate(board);
+
+        if (score === 10){
+            return score;
+        }
+
+        if (score === -10){
+            return score;
+        }
+
+        if(isMovesLeft(board) === false){
+            return 0;
+        }
+
+        // If this maximizer's move
+        if(isMax){
+            let best = -1000;
+            for(let i = 0; i < 9; i++){
+                
+                if(board[i] === ''){
+                    board[i] === player
+                    best = Math.max(best,minimax(board,depth + 1, !isMax));
+                    board[i] = '';
+                }
+            }
+            return best;
+        }else{
+            let best = 1000;
+            for(let i = 0; i < 9; i++){
+                
+                if(board[i] === ''){
+                    board[i] === opponent;
+                    best = Math.min(best,minimax(board,depth + 1, !isMax));
+                    board[i] = '';
+                }
+            }
+            return best;
+        }
+    }
+
+    function findBestMove(board){
+        let bestVal = -1000;
+        let bestMove = new Move();
+        bestMove = -1;
+
+        for(let i = 0; i < 9; i++){
+            if(board[i] === ''){
+                board[i] = player;
+                let moveVal = minimax(board, 0, false);
+                board[i] = '';
+                if(moveVal > bestVal){
+                    bestMove = i;
+                    bestVal = moveVal;
+                }
+            }
+        }
+        return bestMove;
+    }
+    
+    // let bestMove = findBestMove(board);
+
+    return{
+        findBestMove
     }
 }
 
