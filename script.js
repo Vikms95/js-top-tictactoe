@@ -21,6 +21,78 @@ const Player = (name,mark,color) => {
     };
 };
 
+const Computer = () =>{
+    let player = "X";
+    let opponent = "O";
+    
+    class Move{
+        constructor()
+        {
+            let cell;
+        }
+    }
+
+    function isMovesLeft (board){
+        for (let i = 0; i < board.length; i++){
+            if(board[i] == ''){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    //b = _gameBoard - forEach and sum +3 to change row - 0/3/6
+    function evaluate (b){
+       
+        //Checking for Rows for X or 0 victory.
+        row = 0;
+        
+        while(row <= 6){    
+            b.forEach(row);
+                if(b[row + 0] === b[row + 1] && b[row + 1] === b[row + 2]){
+                    if(b[row + 0] == 'X'){
+                        return +10;
+                    }else if(b[row + 0] == 'O'){
+                        return -10;
+                    }
+                }
+                row += 3;    
+        }
+        
+        //Checking for Columns for X or 0 victory.
+        col = 0;
+
+        while(col <= 6){    
+            b.forEach(col);
+                if(b[col + 0] === b[col + 1] && b[col + 1] === b[col + 2]){
+                    if(b[col + 0] == 'X'){
+                        return +10;
+                    }else if(b[col + 0] == 'O'){
+                        return -10;
+                    }
+                }
+                col += 3;    
+        }
+        
+        if(b[0] === b[4] && b[4] === b[8]){
+            if(b[0] === 'X'){
+                return +10;
+            }else if(b[0] == 'O'){
+                return -10;
+            }
+        }
+        if(b[2] === b[4] && b[4] === b[6]){
+            if(b[2] === 'X'){
+                return +10;
+            }else if(b[2] === 'O'){
+                return -10;
+            }
+        }
+        return 0;
+    }
+}
+
+
 const boardModule = (() => {
     
     let _gameBoard = ['','','','','','','','',''];
