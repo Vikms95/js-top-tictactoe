@@ -4,4 +4,4 @@ If the game is a game with computer (which is defined if variable isGameWithComp
     Store the move played to markedPositions of player2
     Change playerToPlay back to player1
 <!-- - Whenever you reset a game, also reset the variable isGameWithComputer -->
-Create a button that initializes the game as normal but just changes how the marks for player2 are placed based on findBestMove(), gives name 'IA', and sets back playerOnTurn to player1 whenever player1 plays
+Create a button that initializes the game as normal but just changes how the marks for player2 are placed based on findBestMove(), gives name 'Computer', and sets back playerOnTurn to player1 whenever player1 plays

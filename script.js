@@ -44,10 +44,10 @@ const Computer = () =>{
     function evaluate (b){
        
         //Checking for Rows for X or 0 victory.
-        row = 0;
+        let row = 0;
         
         while(row <= 6){    
-            b.forEach(row);
+            b.forEach(row => {
                 if(b[row + 0] === b[row + 1] && b[row + 1] === b[row + 2]){
                     if(b[row + 0] === 'X'){
                         return +10;
@@ -55,14 +55,15 @@ const Computer = () =>{
                         return -10;
                     }
                 }
-                row += 3;    
-        }
+                row += 3;   
+            })
+        };
         
         //Checking for Columns for X or 0 victory.
-        col = 0;
+        let col = 0;
 
         while(col <= 6){    
-            b.forEach(col);
+            b.forEach(col => {
                 if(b[col + 0] === b[col + 1] && b[col + 1] === b[col + 2]){
                     if(b[col + 0] === 'X'){
                         return +10;
@@ -71,6 +72,7 @@ const Computer = () =>{
                     }
                 }
                 col += 3;    
+            });
         }
         
         //Checking for Diagonals for X or O victory.
@@ -158,9 +160,8 @@ const Computer = () =>{
 
     return{
         findBestMove
-    }
+    };
 }
-
 
 const boardModule = (() => {
     
@@ -177,7 +178,9 @@ const boardModule = (() => {
     };
 
     const drawMarkOnGameboardComputer = () => {
-
+        let move = Computer();
+        let bestMove = move.findBestMove(getBoard());
+        return bestMove;
     }
 
     const addScoreToLog = (_playerOnTurn,players) =>{
@@ -227,8 +230,8 @@ const boardModule = (() => {
         });
     })();
 
-    const addListenerNewGameButton = (() => {
-        const newGameButtonReference = document.querySelector('.start-game')
+    const addListenerNewGamePlayerButton = (() => {
+        const newGameButtonReference = document.querySelector('.play-player');
         newGameButtonReference.addEventListener('click', () =>{
             let arePlayersValid = gameFlowModule.createPlayers();
             if (arePlayersValid === null) return;
@@ -236,6 +239,16 @@ const boardModule = (() => {
             
         });
     })();
+
+    const addListenerNewGameComputerButton = (() => {
+        const newGameComputerReference = document.querySelector('.play-computer');
+        newGameComputerReference.addEventListener('click', () =>{
+            let arePlayersValid = gameFlowModule.createPlayers();
+            if(arePlayersValid === null) return;
+            gameFlowModule.resetBoard();
+            gameFlowModule.isGameWithComputer = true;
+        } )
+    })
 
     return{
         getBoard,
@@ -262,10 +275,16 @@ const gameFlowModule = (() =>{
     };
 
     const createPlayers = () => {
-        let alphaNumChars = /^[a-z0-9]+$/i;
         let playerName1 = prompt('Enter player 1 name');
-        let playerName2 = prompt('Enter player 2 name');
+        let playerName2;
+
+        if(isGameWithComputer){
+            playerName2 = 'Computer';
+        }else{
+            playerName2 = prompt('Enter player 2 name');
+        }
         
+
         if(playerName1 === null && playerName2 === null){
             alert('Welcome unnamed guest!')
             playerName1 = 'Guest 1';
@@ -294,7 +313,6 @@ const gameFlowModule = (() =>{
         logPlayer2DivReference.textContent = 0;
         player1NameReference.textContent = _players.player1.getPlayerName();
         player2NameReference.textContent = _players.player2.getPlayerName();
-
     }
 
     const startGame = (() => {
@@ -318,11 +336,15 @@ const gameFlowModule = (() =>{
         const messageDivReference = document.querySelector('.message-board');
         
         if(event.target.textContent !== '' || _players === null) return null;
+    
         if(getPlayerOnTurn() === _players.player2 || getPlayerOnTurn() === undefined){
             setPlayerOnTurn(_players.player1);
             event.target.style.color = getPlayerOnTurn().color;
         }else{
             setPlayerOnTurn(_players.player2);
+            if(isGameWithComputer){
+
+            }
             event.target.style.color = getPlayerOnTurn().color;
         };
 
@@ -390,7 +412,8 @@ const gameFlowModule = (() =>{
             getPlayerOnTurn,
             checkPlayerToPlay,
             checkForWinnerOrTie,
-            resetBoard
+            resetBoard,
+            isGameWithComputer
     };
 
 })();

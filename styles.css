@@ -31,7 +31,8 @@ body{
     
 }
 
-button.start-game{
+button.play-player,
+button.play-computer{
     font-family: 'Kosugi Maru', sans-serif; 
     color: crimson;
     font-weight: bolder;
@@ -40,7 +41,8 @@ button.start-game{
     transition: 0.5s;
 }
 
-button.start-game:hover{
+button.play-player:hover,
+button.play-computer:hover{
     color: white;
     background-color: crimson;
 }
